@@ -1,0 +1,47 @@
+name: OrbisSkills
+version: 1.0.0
+main: com.orbis.skills.OrbisSkills
+api-version: '1.21'
+authors: [InjurynSickness]
+description: A comprehensive skills plugin for OrbisMC
+softdepend: [PlaceholderAPI]
+
+commands:
+  skills:
+    description: Main command for OrbisSkills
+    usage: /skills [skill|help|info|reset|stats]
+    aliases: [skill, orbiscore]
+  skillsadmin:
+    description: Admin commands for OrbisSkills
+    usage: /skillsadmin [reload|reset|setlevel|addexp|removeexp]
+    aliases: [skillsadmin, orbisadmin]
+    permission: orbisskills.admin
+
+permissions:
+  orbisskills.admin:
+    description: Allows access to all admin commands
+    default: op
+  orbisskills.user:
+    description: Allows access to user commands
+    default: true
+  orbisskills.fishing:
+    description: Allows usage of fishing skill
+    default: true
+  orbisskills.fencing:
+    description: Allows usage of fencing skill
+    default: true
+  orbisskills.archery:
+    description: Allows usage of archery skill
+    default: true
+  orbisskills.mining:
+    description: Allows usage of mining skill
+    default: true
+  orbisskills.woodcutting:
+    description: Allows usage of woodcutting skill
+    default: true
+  orbisskills.farming:
+    description: Allows usage of farming skill
+    default: true
+  orbisskills.acrobatics:
+    description: Allows usage of acrobatics skill
+    default: true

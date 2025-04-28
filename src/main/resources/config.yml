@@ -1,0 +1,85 @@
+# OrbisSkills Configuration
+
+# Storage configuration
+storage:
+  # Storage type: yaml, mysql, sqlite
+  type: yaml
+  # MySQL settings (only if using mysql)
+  mysql:
+    host: localhost
+    port: 3306
+    database: orbisskills
+    username: root
+    password: password
+    table-prefix: orbisskills_
+  # SQLite settings (only if using sqlite)
+  sqlite:
+    file: database.db
+
+# General settings
+settings:
+  # Default experience multiplier
+  exp-multiplier: 1.0
+  # Maximum level for skills
+  max-level: 100
+  # Show level up messages
+  level-up-messages: true
+  # Show level up titles
+  level-up-titles: true
+  # Show level up sounds
+  level-up-sounds: true
+  # Show ability activation messages
+  ability-messages: true
+  # Save interval in ticks (20 ticks = 1 second)
+  save-interval: 6000
+  # Disable skills in these worlds
+  disabled-worlds:
+    - world_disabled
+  # Disable abilities in these regions (if WorldGuard is installed)
+  disabled-regions:
+    - no_abilities
+  # Save delay on player quit (in ticks)
+  save-on-quit-delay: 20
+
+# Experience formula
+# Available variables: base, level, multiplier
+experience:
+  formula: "base * (1 + (level * 0.1)) * multiplier"
+  # Base experience values for each skill
+  base-values:
+    fishing: 10
+    fencing: 8
+    archery: 8
+    mining: 5
+    woodcutting: 5
+    farming: 7
+    acrobatics: 5
+
+# Skill settings
+skills:
+  # Enable/disable individual skills
+  enabled:
+    fishing: true
+    fencing: true
+    archery: true
+    mining: true
+    woodcutting: true
+    farming: true
+    acrobatics: true
+
+  # Custom skill names (for display)
+  display-names:
+    fishing: "&bFishing"
+    fencing: "&cFencing"
+    archery: "&aArchery"
+    mining: "&6Mining"
+    woodcutting: "&2Woodcutting"
+    farming: "&eFarming"
+    acrobatics: "&dAcrobatics"
+
+# GUI settings
+gui:
+  title: "&8&lOrbisSkills"
+  rows: 4
+  fill-empty-slots: true
+  empty-slot-item: BLACK_STAINED_GLASS_PANE

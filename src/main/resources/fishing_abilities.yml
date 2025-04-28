@@ -1,0 +1,100 @@
+abilities:
+  # Double Drop ability (built-in)
+  doubledrop:
+    enabled: true
+    unlock-level: 10
+    name: "&bDouble Drop"
+    description: "Chance to get double drops when fishing"
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      10: 0.05  # 5% at level 10
+      20: 0.10  # 10% at level 20
+      30: 0.15  # 15% at level 30
+      40: 0.20  # 20% at level 40
+      50: 0.25  # 25% at level 50
+      60: 0.30  # 30% at level 60
+    messages:
+      activate: "&aYour Double Drop ability activated!"
+
+  # Experienced Fisher ability (built-in)
+  experiencedfisher:
+    enabled: true
+    unlock-level: 20
+    name: "&eExperienced Fisher"
+    description: "Gain additional experience from fishing"
+    effects:
+      # Format: level: bonus (percentage multiplier)
+      20: 0.10  # +10% exp at level 20
+      30: 0.20  # +20% exp at level 30
+      40: 0.30  # +30% exp at level 40
+      50: 0.40  # +40% exp at level 50
+      60: 0.50  # +50% exp at level 60
+      70: 0.75  # +75% exp at level 70
+    messages:
+      activate: "&aYour Experienced Fisher ability gave you extra experience!"
+
+  # Treasure Hunter ability (built-in)
+  treasurehunter:
+    enabled: true
+    unlock-level: 30
+    name: "&6Treasure Hunter"
+    description: "Increased chance to find rare treasures while fishing"
+    effects:
+      # Format: level: multiplier (applied to treasure chance)
+      30: 0.10  # +10% at level 30
+      40: 0.20  # +20% at level 40
+      50: 0.30  # +30% at level 50
+      60: 0.50  # +50% at level 60
+      70: 0.75  # +75% at level 70
+      80: 1.00  # +100% at level 80
+    messages:
+      activate: "&aYour Treasure Hunter ability found something special!"
+
+  # Master Angler ability (built-in)
+  masterangler:
+    enabled: true
+    unlock-level: 50
+    name: "&dMaster Angler"
+    description: "Chance for instant catches while fishing"
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      50: 0.05  # 5% at level 50
+      60: 0.10  # 10% at level 60
+      70: 0.15  # 15% at level 70
+      80: 0.20  # 20% at level 80
+      90: 0.25  # 25% at level 90
+      100: 0.33  # 33% at level 100
+    messages:
+      activate: "&aYour Master Angler ability gave you an instant catch!"
+
+  # Custom ability example
+  aquaticbartering:
+    enabled: true
+    unlock-level: 40
+    name: "&3Aquatic Bartering"
+    description: "Chance to find valuable items from aquatic mobs"
+    cooldown: 300  # Cooldown in seconds
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      40: 0.05  # 5% at level 40
+      50: 0.10  # 10% at level 50
+      60: 0.15  # 15% at level 60
+      70: 0.20  # 20% at level 70
+      80: 0.30  # 30% at level 80
+    items:
+      # Items that can be obtained through this ability
+      - material: HEART_OF_THE_SEA
+        chance: 0.05
+        min-level: 40
+      - material: NAUTILUS_SHELL
+        chance: 0.15
+        min-level: 40
+      - material: TRIDENT
+        chance: 0.01
+        min-level: 60
+      - material: SCUTE
+        chance: 0.20
+        min-level: 40
+    messages:
+      activate: "&aA sea creature traded something with you!"
+      cooldown: "&cYou must wait {time} before using Aquatic Bartering again!"

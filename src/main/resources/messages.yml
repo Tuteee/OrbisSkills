@@ -1,0 +1,38 @@
+# OrbisSkills Messages Configuration
+
+# General messages
+prefix: "&8[&bOrbisSkills&8] &7"
+
+# Skill messages
+level-up: "&aYour {skill} skill has increased to level {level}!"
+level-up-title: "&b{skill} Level Up!"
+level-up-subtitle: "&7You are now level &b{level}"
+ability-unlock: "&aYou have unlocked the &e{ability} &aability for your {skill} skill!"
+special-drop: "&aYou found a special item: &e{item}"
+special-drop-full-inv: "&aYou found a special item: &e{item} &abut your inventory is full!"
+
+# Command messages
+command:
+  no-permission: "&cYou don't have permission to use this command!"
+  player-only: "&cThis command can only be used by players!"
+  not-found: "&cCommand not found!"
+  skill-not-found: "&cSkill not found: {skill}"
+
+# Admin command messages
+admin:
+  reset-skill: "&aReset {player}'s {skill} skill!"
+  set-level: "&aSet {player}'s {skill} level to {level}!"
+  add-exp: "&aAdded {amount} experience to {player}'s {skill} skill!"
+  remove-exp: "&aRemoved {amount} experience from {player}'s {skill} skill!"
+  reload: "&aOrbisSkills configurations reloaded!"
+
+# GUI messages
+gui:
+  title: "&8OrbisSkills"
+  skill-info: "&7Level: &b{level} &7- Exp: &b{exp}/{exp-to-level} &7(&b{progress}%&7)"
+  abilities-title: "&eAbilities"
+  ability-locked: "&cLocked (Unlocks at level {level})"
+  ability-unlocked: "&aUnlocked"
+  next-page: "&aNext Page"
+  previous-page: "&aPrevious Page"
+  back: "&cBack"
