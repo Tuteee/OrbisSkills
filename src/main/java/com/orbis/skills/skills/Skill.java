@@ -153,6 +153,15 @@ public abstract class Skill {
     }
 
     /**
+     * Get an ability by name
+     * @param abilityName the ability name
+     * @return the ability, or null if not found
+     */
+    public Ability getAbility(String abilityName) {
+        return abilities.get(abilityName.toLowerCase());
+    }
+
+    /**
      * Get ability info for a player
      * @param player the player
      * @param abilityName the ability name

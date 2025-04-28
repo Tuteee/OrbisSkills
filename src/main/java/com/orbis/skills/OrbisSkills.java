@@ -8,7 +8,9 @@ import com.orbis.skills.data.Storage;
 import com.orbis.skills.data.YamlStorage;
 import com.orbis.skills.data.SQLStorage;
 import com.orbis.skills.listeners.AbilityListeners;
+import com.orbis.skills.listeners.CustomSkillListeners;
 import com.orbis.skills.listeners.SkillExpListeners;
+import com.orbis.skills.skills.CustomSkillManager;
 import com.orbis.skills.skills.SkillManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,6 +20,7 @@ public class OrbisSkills extends JavaPlugin {
     private ConfigManager configManager;
     private DataManager dataManager;
     private SkillManager skillManager;
+    private CustomSkillManager customSkillManager;
     private Storage storage;
 
     @Override
@@ -59,9 +62,14 @@ public class OrbisSkills extends JavaPlugin {
         skillManager = new SkillManager(this);
         skillManager.registerSkills();
 
+        // Initialize custom skill manager
+        customSkillManager = new CustomSkillManager(this);
+        customSkillManager.loadCustomSkills();
+
         // Register event listeners
         getServer().getPluginManager().registerEvents(new SkillExpListeners(this), this);
         getServer().getPluginManager().registerEvents(new AbilityListeners(this), this);
+        getServer().getPluginManager().registerEvents(new CustomSkillListeners(this), this);
 
         // Register commands
         getCommand("skills").setExecutor(new SkillsCommand(this));
@@ -115,6 +123,14 @@ public class OrbisSkills extends JavaPlugin {
      */
     public SkillManager getSkillManager() {
         return skillManager;
+    }
+
+    /**
+     * Get the custom skill manager
+     * @return the custom skill manager
+     */
+    public CustomSkillManager getCustomSkillManager() {
+        return customSkillManager;
     }
 
     /**
