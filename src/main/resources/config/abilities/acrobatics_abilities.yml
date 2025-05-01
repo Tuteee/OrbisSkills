@@ -1,0 +1,53 @@
+# Acrobatics Abilities Configuration
+
+abilities:
+  # Roll ability
+  roll:
+    enabled: true
+    unlock-level: 10
+    name: "&eRoll"
+    description: "Chance to reduce fall damage by 50%"
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      10: 0.10  # 10% at level 10
+      20: 0.20  # 20% at level 20
+      30: 0.30  # 30% at level 30
+      40: 0.40  # 40% at level 40
+      50: 0.50  # 50% at level 50
+      60: 0.60  # 60% at level 60
+    messages:
+      activate: "&aYour Roll ability reduced your fall damage!"
+
+  # Safe Fall ability
+  safefall:
+    enabled: true
+    unlock-level: 30
+    name: "&bSafe Fall"
+    description: "Chance to completely negate fall damage"
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      30: 0.05  # 5% at level 30
+      40: 0.10  # 10% at level 40
+      50: 0.15  # 15% at level 50
+      60: 0.20  # 20% at level 60
+      70: 0.25  # 25% at level 70
+      80: 0.30  # 30% at level 80
+    messages:
+      activate: "&aYour Safe Fall ability negated all fall damage!"
+
+  # Graceful Landing ability
+  gracefullanding:
+    enabled: true
+    unlock-level: 50
+    name: "&dGraceful Landing"
+    description: "Gain experience based on fall damage survived"
+    effects:
+      # Format: level: multiplier
+      50: 1.25  # 1.25x at level 50
+      60: 1.50  # 1.50x at level 60
+      70: 1.75  # 1.75x at level 70
+      80: 2.00  # 2.00x at level 80
+      90: 2.25  # 2.25x at level 90
+      100: 2.50  # 2.50x at level 100
+    messages:
+      activate: "&aYour Graceful Landing ability gave you extra experience!"

@@ -1,0 +1,48 @@
+# Archery Abilities Configuration
+
+abilities:
+  # Bullseye ability
+  bullseye:
+    enabled: true
+    unlock-level: 10
+    name: "&eBullseye"
+    description: "Chance to deal 50% extra damage with arrows"
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      10: 0.05  # 5% at level 10
+      20: 0.10  # 10% at level 20
+      30: 0.15  # 15% at level 30
+      40: 0.20  # 20% at level 40
+      50: 0.25  # 25% at level 50
+      60: 0.30  # 30% at level 60
+    messages:
+      activate: "&aYour Bullseye ability dealt extra damage!"
+
+  # Dazing Arrow ability
+  dazingarrow:
+    enabled: true
+    unlock-level: 30
+    name: "&dDazing Arrow"
+    description: "Chance to apply confusion effect to targets"
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      30: 0.05  # 5% at level 30
+      40: 0.10  # 10% at level 40
+      50: 0.15  # 15% at level 50
+      60: 0.20  # 20% at level 60
+      70: 0.25  # 25% at level 70
+      80: 0.30  # 30% at level 80
+    messages:
+      activate: "&aYour Dazing Arrow ability confused the target!"
+
+  # Multi Shot ability
+  multishot:
+    enabled: true
+    unlock-level: 50
+    name: "&bMulti Shot"
+    description: "Fire multiple arrows at once while sneaking"
+    effects:
+      # Format: level: effect value (1.0 is base)
+      50: 1.0  # Base effect at level 50
+    messages:
+      activate: "&aYour Multi Shot ability fired multiple arrows!"

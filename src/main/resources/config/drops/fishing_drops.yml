@@ -1,0 +1,93 @@
+# Fishing Special Drops Configuration
+
+special-drops:
+  # Drops for levels 1-10
+  tier1:
+    level-range: 1-10
+    drops:
+      # Format: material: chance (percentage)
+      COAL: 5.0
+      RAW_IRON: 3.0
+      LEATHER: 7.0
+      BONE: 10.0
+      STRING: 15.0
+      INK_SAC: 8.0
+      # Custom items with NBT
+      custom-items:
+        small-treasure-chest:
+          material: CHEST
+          chance: 2.0
+          name: "&6Small Treasure Chest"
+          lore:
+            - "&7Contains small treasures"
+            - "&7Right-click to open"
+          nbt:
+            treasure-tier: 1
+
+  # Drops for levels 11-25
+  tier2:
+    level-range: 11-25
+    drops:
+      RAW_IRON: 7.0
+      RAW_COPPER: 10.0
+      LEATHER: 5.0
+      PRISMARINE_SHARD: 7.0
+      PRISMARINE_CRYSTALS: 5.0
+      GOLD_NUGGET: 8.0
+      custom-items:
+        medium-treasure-chest:
+          material: CHEST
+          chance: 3.0
+          name: "&eMedium Treasure Chest"
+          lore:
+            - "&7Contains medium treasures"
+            - "&7Right-click to open"
+          nbt:
+            treasure-tier: 2
+
+  # Drops for levels 26-50
+  tier3:
+    level-range: 26-50
+    drops:
+      RAW_GOLD: 5.0
+      LAPIS_LAZULI: 7.0
+      NAUTILUS_SHELL: 3.0
+      HEART_OF_THE_SEA: 1.0
+      EMERALD: 2.0
+      AMETHYST_SHARD: 4.0
+      custom-items:
+        large-treasure-chest:
+          material: CHEST
+          chance: 4.0
+          name: "&dLarge Treasure Chest"
+          lore:
+            - "&7Contains large treasures"
+            - "&7Right-click to open"
+          nbt:
+            treasure-tier: 3
+
+  # Drops for levels 51-75
+  tier4:
+    level-range: 51-75
+    drops:
+      DIAMOND: 2.0
+      ANCIENT_DEBRIS: 0.5
+      NETHERITE_SCRAP: 0.3
+      ECHO_SHARD: 1.0
+      custom-items:
+        giant-treasure-chest:
+          material: CHEST
+          chance: 5.0
+          name: "&cGiant Treasure Chest"
+          lore:
+            - "&7Contains giant treasures"
+            - "&7Right-click to open"
+          nbt:
+            treasure-tier: 4
+
+  # Drops for levels 76-100
+  tier5:
+    level-range: 76-100
+    drops:
+      NETHERITE_INGOT: 0.1
+      ENCHANTED_GOLDEN_APPLE: 0.2

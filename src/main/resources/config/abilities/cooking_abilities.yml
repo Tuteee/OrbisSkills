@@ -1,0 +1,63 @@
+abilities:
+  # Chef ability - chance for double cooked food
+  chef:
+    enabled: true
+    unlock-level: 10
+    name: "&eChef"
+    description: "Chance to get double food when cooking"
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      10: 0.05  # 5% at level 10
+      20: 0.10  # 10% at level 20
+      30: 0.15  # 15% at level 30
+      40: 0.20  # 20% at level 40
+      50: 0.25  # 25% at level 50
+    messages:
+      activate: "&aYour Chef ability gave you extra food!"
+
+  # Gourmet ability - food gives more hunger and saturation
+  gourmet:
+    enabled: true
+    unlock-level: 25
+    name: "&dGourmet"
+    description: "Food gives extra hunger and saturation"
+    effects:
+      # Format: level: bonus (hunger/saturation bonus)
+      25: 0.20  # +20% at level 25
+      35: 0.30  # +30% at level 35
+      45: 0.40  # +40% at level 45
+      55: 0.50  # +50% at level 55
+      65: 0.60  # +60% at level 65
+    messages:
+      activate: "&aYour Gourmet ability made the food more filling!"
+
+  # Culinary Artist ability - chance to remove negative effects when eating food
+  culinaryartist:
+    enabled: true
+    unlock-level: 40
+    name: "&bCulinary Artist"
+    description: "Chance to remove a negative effect when eating food"
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      40: 0.15  # 15% at level 40
+      50: 0.25  # 25% at level 50
+      60: 0.35  # 35% at level 60
+      70: 0.45  # 45% at level 70
+      80: 0.55  # 55% at level 80
+    messages:
+      activate: "&aYour Culinary Artist ability removed a negative effect!"
+
+  # Master Chef ability - applying food effects to nearby players
+  masterchef:
+    enabled: true
+    unlock-level: 60
+    name: "&cMaster Chef"
+    description: "Apply food effects to nearby players when eating (cooldown: 5 minutes)"
+    cooldown: 300  # seconds
+    radius: 5      # blocks
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      60: 1.0      # Always applies when off cooldown
+    messages:
+      activate: "&aYour Master Chef ability shared food effects with nearby players!"
+      cooldown: "&cYou must wait {time} before using Master Chef again!"

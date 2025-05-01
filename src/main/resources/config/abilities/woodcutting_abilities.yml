@@ -1,0 +1,48 @@
+# Woodcutting Abilities Configuration
+
+abilities:
+  # Lumberjack ability
+  lumberjack:
+    enabled: true
+    unlock-level: 10
+    name: "&eLumberjack"
+    description: "Chance to get double drops when cutting logs"
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      10: 0.05  # 5% at level 10
+      20: 0.10  # 10% at level 20
+      30: 0.15  # 15% at level 30
+      40: 0.20  # 20% at level 40
+      50: 0.25  # 25% at level 50
+      60: 0.30  # 30% at level 60
+    messages:
+      activate: "&aYour Lumberjack ability gave you extra logs!"
+
+  # Tree Feller ability
+  treefeller:
+    enabled: true
+    unlock-level: 30
+    name: "&bTree Feller"
+    description: "Cut down entire trees at once when sneaking"
+    effects:
+      # Format: level: effect value (1.0 is base)
+      30: 1.0  # Base effect at level 30
+    messages:
+      activate: "&aYour Tree Feller ability chopped down the entire tree!"
+
+  # Harvestmaster ability
+  harvestmaster:
+    enabled: true
+    unlock-level: 50
+    name: "&dHarvestmaster"
+    description: "Increased chance for saplings from leaves"
+    effects:
+      # Format: level: multiplier
+      50: 1.25  # 1.25x at level 50
+      60: 1.50  # 1.50x at level 60
+      70: 1.75  # 1.75x at level 70
+      80: 2.00  # 2.00x at level 80
+      90: 2.25  # 2.25x at level 90
+      100: 2.50  # 2.50x at level 100
+    messages:
+      activate: "&aYour Harvestmaster ability gave you extra saplings!"

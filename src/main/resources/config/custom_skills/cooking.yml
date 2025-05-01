@@ -1,0 +1,54 @@
+# Whether this skill is enabled
+enabled: true
+
+# Basic skill information
+name: cooking
+display-name: "&6Cooking"
+description: "Master the art of preparing food"
+
+# Base experience gained from actions
+base-exp: 7.5
+
+# Sources - game mechanics that can give this skill experience
+sources:
+  - FURNACE
+  - SMOKER
+  - CAMPFIRE
+  - CRAFTING
+
+# Triggers - specific events that trigger this skill
+triggers:
+  - CRAFT
+  - SMELT
+  - CONSUME
+
+# Materials that can trigger this skill when used with triggers
+trigger-materials:
+  # Raw foods
+  - RAW_BEEF
+  - RAW_PORKCHOP
+  - RAW_CHICKEN
+  - RAW_MUTTON
+  - RAW_RABBIT
+  - RAW_COD
+  - RAW_SALMON
+  # Cooked foods
+  - COOKED_BEEF
+  - COOKED_PORKCHOP
+  - COOKED_CHICKEN
+  - COOKED_MUTTON
+  - COOKED_RABBIT
+  - COOKED_COD
+  - COOKED_SALMON
+  # Crafted foods
+  - BREAD
+  - CAKE
+  - COOKIE
+  - PUMPKIN_PIE
+  - RABBIT_STEW
+  - BEETROOT_SOUP
+  - MUSHROOM_STEW
+  - SUSPICIOUS_STEW
+  # Other cookable items
+  - BAKED_POTATO
+  - DRIED_KELP

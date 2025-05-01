@@ -51,13 +51,15 @@ public class ConfigManager {
         if (!abilitiesDir.exists() && !abilitiesDir.mkdirs()) {
             plugin.getLogger().severe("Failed to create abilities directory!");
         } else {
-            loadConfig("config/abilities/fishing_abilities.yml");
-            loadConfig("config/abilities/fencing_abilities.yml");
-            loadConfig("config/abilities/archery_abilities.yml");
-            loadConfig("config/abilities/mining_abilities.yml");
-            loadConfig("config/abilities/woodcutting_abilities.yml");
-            loadConfig("config/abilities/farming_abilities.yml");
-            loadConfig("config/abilities/acrobatics_abilities.yml");
+           
+
+            safeLoadConfig("config/abilities/fishing_abilities.yml");
+            safeLoadConfig("config/abilities/fencing_abilities.yml");
+            safeLoadConfig("config/abilities/archery_abilities.yml");
+            safeLoadConfig("config/abilities/mining_abilities.yml");
+            safeLoadConfig("config/abilities/woodcutting_abilities.yml");
+            safeLoadConfig("config/abilities/farming_abilities.yml");
+            safeLoadConfig("config/abilities/acrobatics_abilities.yml");
         }
 
        
@@ -66,10 +68,64 @@ public class ConfigManager {
         if (!dropsDir.exists() && !dropsDir.mkdirs()) {
             plugin.getLogger().severe("Failed to create drops directory!");
         } else {
-            loadConfig("config/drops/fishing_drops.yml");
+           
+
+            safeLoadConfig("config/drops/fishing_drops.yml");
         }
 
         plugin.getLogger().info("Loaded " + configs.size() + " configurations");
+    }
+
+    
+
+    private void safeLoadConfig(String fileName) {
+        File configFile = new File(plugin.getDataFolder(), fileName);
+
+       
+
+        if (!configFile.exists()) {
+            try {
+               
+
+                configFile.getParentFile().mkdirs();
+
+               
+
+                configFile.createNewFile();
+
+               
+
+                InputStream inputStream = plugin.getResource(fileName);
+                if (inputStream != null) {
+                   
+
+                    YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(
+                            new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+                    defaultConfig.save(configFile);
+                } else {
+                   
+
+                    YamlConfiguration defaultConfig = new YamlConfiguration();
+                    defaultConfig.set("info", "Default config created for " + fileName);
+                    defaultConfig.save(configFile);
+                    plugin.getLogger().info("Created default config for " + fileName);
+                }
+            } catch (IOException e) {
+                plugin.getLogger().log(Level.SEVERE, "Could not create config file: " + fileName, e);
+                return;
+            }
+        }
+
+       
+
+        FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+
+       
+
+        configs.put(fileName, config);
+        configFiles.put(fileName, configFile);
+
+        plugin.getLogger().info("Loaded config: " + fileName);
     }
 
     

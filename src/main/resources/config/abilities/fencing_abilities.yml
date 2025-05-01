@@ -1,0 +1,48 @@
+# Fencing Abilities Configuration
+
+abilities:
+  # Bleed ability
+  bleed:
+    enabled: true
+    unlock-level: 10
+    name: "&cBleed"
+    description: "Chance to apply a bleeding effect to enemies"
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      10: 0.10  # 10% at level 10
+      20: 0.15  # 15% at level 20
+      30: 0.20  # 20% at level 30
+      40: 0.25  # 25% at level 40
+      50: 0.30  # 30% at level 50
+      60: 0.35  # 35% at level 60
+    messages:
+      activate: "&aYour Bleed ability activated!"
+
+  # Parry ability
+  parry:
+    enabled: true
+    unlock-level: 30
+    name: "&eParry"
+    description: "Chance to reduce incoming damage"
+    effects:
+      # Format: level: reduction (percentage)
+      30: 0.30  # 30% at level 30
+      40: 0.40  # 40% at level 40
+      50: 0.50  # 50% at level 50
+      60: 0.60  # 60% at level 60
+      70: 0.70  # 70% at level 70
+      80: 0.80  # 80% at level 80
+    messages:
+      activate: "&aYour Parry ability reduced incoming damage!"
+
+  # Counter Attack ability
+  counterattack:
+    enabled: true
+    unlock-level: 50
+    name: "&bCounter Attack"
+    description: "Deal bonus damage when striking back at an attacker"
+    effects:
+      # Format: level: effect value (1.0 is base)
+      50: 1.0  # Base effect at level 50
+    messages:
+      activate: "&aYour Counter Attack ability dealt bonus damage!"

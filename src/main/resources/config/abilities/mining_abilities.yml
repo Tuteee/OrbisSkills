@@ -1,0 +1,43 @@
+# Mining Abilities Configuration
+
+abilities:
+  # Double Ore ability
+  doubleore:
+    enabled: true
+    unlock-level: 10
+    name: "&eDouble Ore"
+    description: "Chance to get double drops when mining ores"
+    effects:
+      # Format: level: chance (0.0 - 1.0)
+      10: 0.05  # 5% at level 10
+      20: 0.10  # 10% at level 20
+      30: 0.15  # 15% at level 30
+      40: 0.20  # 20% at level 40
+      50: 0.25  # 25% at level 50
+      60: 0.30  # 30% at level 60
+    messages:
+      activate: "&aYour Double Ore ability gave you extra ore!"
+
+  # Super Breaker ability
+  superbreaker:
+    enabled: true
+    unlock-level: 30
+    name: "&bSuper Breaker"
+    description: "Gain temporary haste effect when mining while sneaking"
+    effects:
+      # Format: level: effect value (1.0 is base)
+      30: 1.0  # Base effect at level 30
+    messages:
+      activate: "&aYour Super Breaker ability activated!"
+
+  # Vein Miner ability
+  veinminer:
+    enabled: true
+    unlock-level: 50
+    name: "&dVein Miner"
+    description: "Mine entire veins of ore at once when sneaking"
+    effects:
+      # Format: level: effect value (1.0 is base)
+      50: 1.0  # Base effect at level 50
+    messages:
+      activate: "&aYour Vein Miner ability activated!"
