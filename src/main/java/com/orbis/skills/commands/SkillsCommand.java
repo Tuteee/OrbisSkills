@@ -20,10 +20,8 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
 
     private final OrbisSkills plugin;
 
-    /**
-     * Create a new skills command
-     * @param plugin the plugin instance
-     */
+    
+
     public SkillsCommand(OrbisSkills plugin) {
         this.plugin = plugin;
     }
@@ -37,15 +35,18 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
 
-        // Check permission
+       
+
         if (!player.hasPermission("orbisskills.user")) {
             player.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
             return true;
         }
 
-        // Handle subcommands
+       
+
         if (args.length == 0) {
-            // Show main skills menu
+           
+
             showSkillsMenu(player);
             return true;
         }
@@ -54,11 +55,13 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
 
         switch (subCommand) {
             case "help":
-                // Show help
+               
+
                 showHelp(player);
                 break;
             case "info":
-                // Show skill info
+               
+
                 if (args.length < 2) {
                     player.sendMessage(ChatColor.RED + "Usage: /skills info <skill>");
                     return true;
@@ -66,17 +69,20 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
                 showSkillInfo(player, args[1]);
                 break;
             case "stats":
-                // Show stats
+               
+
                 showStats(player);
                 break;
             case "reset":
-                // Reset skill
+               
+
                 if (args.length < 2) {
                     player.sendMessage(ChatColor.RED + "Usage: /skills reset <skill>");
                     return true;
                 }
 
-                // Check permission
+               
+
                 if (!player.hasPermission("orbisskills.reset")) {
                     player.sendMessage(ChatColor.RED + "You don't have permission to reset skills!");
                     return true;
@@ -85,7 +91,8 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
                 resetSkill(player, args[1]);
                 break;
             default:
-                // Check if argument is a skill name
+               
+
                 Skill skill = plugin.getSkillManager().getSkill(subCommand);
                 if (skill != null) {
                     showSkillInfo(player, subCommand);
@@ -99,13 +106,13 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    /**
-     * Show skills menu
-     * @param player the player
-     */
+    
+
     private void showSkillsMenu(Player player) {
-        // In a real implementation, this would open a GUI
-        // For now, just list available skills
+       
+
+       
+
         player.sendMessage(ChatColor.GOLD + "==== OrbisSkills ====");
 
         PlayerData playerData = plugin.getDataManager().getPlayerData(player.getUniqueId());
@@ -130,10 +137,8 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(ChatColor.GRAY + "Use /skills help for commands");
     }
 
-    /**
-     * Show help
-     * @param player the player
-     */
+    
+
     private void showHelp(Player player) {
         player.sendMessage(ChatColor.GOLD + "==== OrbisSkills Help ====");
         player.sendMessage(ChatColor.YELLOW + "/skills " + ChatColor.WHITE + "- Show skills menu");
@@ -144,11 +149,8 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(ChatColor.YELLOW + "/skills reset <skill> " + ChatColor.WHITE + "- Reset a skill (if allowed)");
     }
 
-    /**
-     * Show skill info
-     * @param player the player
-     * @param skillName the skill name
-     */
+    
+
     private void showSkillInfo(Player player, String skillName) {
         Skill skill = plugin.getSkillManager().getSkill(skillName);
         if (skill == null) {
@@ -173,17 +175,17 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
                 String.format("%.1f / %.1f (%.1f%%)", exp, expToNext, progress));
         player.sendMessage(ChatColor.YELLOW + "Rank: " + ChatColor.WHITE + playerData.getSkillRank(skill.getName()));
 
-        // Show abilities
+       
+
         player.sendMessage(ChatColor.GOLD + "Abilities:");
-        // This would list abilities in a real implementation
+       
+
 
         player.sendMessage(ChatColor.GRAY + "Use /skills stats for more info");
     }
 
-    /**
-     * Show stats
-     * @param player the player
-     */
+    
+
     private void showStats(Player player) {
         PlayerData playerData = plugin.getDataManager().getPlayerData(player.getUniqueId());
         if (playerData == null) {
@@ -194,7 +196,8 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(ChatColor.GOLD + "==== OrbisSkills Stats ====");
         player.sendMessage(ChatColor.YELLOW + "Total Level: " + ChatColor.WHITE + playerData.getTotalLevel());
 
-        // Show detailed stats for each skill
+       
+
         for (Skill skill : plugin.getSkillManager().getAllSkills()) {
             int level = playerData.getSkillLevel(skill.getName());
             double exp = playerData.getSkillExp(skill.getName());
@@ -208,11 +211,8 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
         }
     }
 
-    /**
-     * Reset skill
-     * @param player the player
-     * @param skillName the skill name
-     */
+    
+
     private void resetSkill(Player player, String skillName) {
         Skill skill = plugin.getSkillManager().getSkill(skillName);
         if (skill == null) {
@@ -220,12 +220,15 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
             return;
         }
 
-        // Ask for confirmation
+       
+
         player.sendMessage(ChatColor.RED + "Are you sure you want to reset your " +
                 skill.getDisplayName() + ChatColor.RED + " skill? Type '/skills confirm' to confirm.");
 
-        // Store confirmation request (this would be implemented elsewhere)
-        // In a real implementation, this would use a Map to store pending confirmations
+       
+
+       
+
     }
 
     @Override
@@ -233,19 +236,23 @@ public class SkillsCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            // Add subcommands
+           
+
             completions.addAll(Arrays.asList("help", "info", "stats", "reset"));
 
-            // Add skill names
+           
+
             plugin.getSkillManager().getAllSkills().forEach(skill ->
                     completions.add(skill.getName().toLowerCase()));
 
-            // Filter by current input
+           
+
             return completions.stream()
                     .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
                     .collect(Collectors.toList());
         } else if (args.length == 2) {
-            // If first argument is "info" or "reset", suggest skill names
+           
+
             if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("reset")) {
                 plugin.getSkillManager().getAllSkills().forEach(skill ->
                         completions.add(skill.getName().toLowerCase()));

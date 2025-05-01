@@ -20,17 +20,16 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
 
     private final OrbisSkills plugin;
 
-    /**
-     * Create a new admin command
-     * @param plugin the plugin instance
-     */
+    
+
     public AdminCommand(OrbisSkills plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        // Check permission
+       
+
         if (!sender.hasPermission("orbisskills.admin")) {
             sender.sendMessage(ChatColor.RED + "You don't have permission to use this command!");
             return true;
@@ -45,12 +44,14 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
 
         switch (subCommand) {
             case "reload":
-                // Reload config
+               
+
                 plugin.getConfigManager().reload();
                 sender.sendMessage(ChatColor.GREEN + "OrbisSkills config reloaded!");
                 break;
             case "reset":
-                // Reset player skill
+               
+
                 if (args.length < 3) {
                     sender.sendMessage(ChatColor.RED + "Usage: /skillsadmin reset <player> <skill>");
                     return true;
@@ -59,7 +60,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                 resetPlayerSkill(sender, args[1], args[2]);
                 break;
             case "setlevel":
-                // Set player skill level
+               
+
                 if (args.length < 4) {
                     sender.sendMessage(ChatColor.RED + "Usage: /skillsadmin setlevel <player> <skill> <level>");
                     return true;
@@ -68,7 +70,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                 setPlayerSkillLevel(sender, args[1], args[2], args[3]);
                 break;
             case "addexp":
-                // Add experience to player skill
+               
+
                 if (args.length < 4) {
                     sender.sendMessage(ChatColor.RED + "Usage: /skillsadmin addexp <player> <skill> <amount>");
                     return true;
@@ -77,7 +80,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                 addPlayerSkillExp(sender, args[1], args[2], args[3]);
                 break;
             case "removeexp":
-                // Remove experience from player skill
+               
+
                 if (args.length < 4) {
                     sender.sendMessage(ChatColor.RED + "Usage: /skillsadmin removeexp <player> <skill> <amount>");
                     return true;
@@ -94,10 +98,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    /**
-     * Show admin help
-     * @param sender the sender
-     */
+    
+
     private void showAdminHelp(CommandSender sender) {
         sender.sendMessage(ChatColor.GOLD + "==== OrbisSkills Admin Help ====");
         sender.sendMessage(ChatColor.YELLOW + "/skillsadmin reload " + ChatColor.WHITE + "- Reload config");
@@ -107,12 +109,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(ChatColor.YELLOW + "/skillsadmin removeexp <player> <skill> <amount> " + ChatColor.WHITE + "- Remove experience from player skill");
     }
 
-    /**
-     * Reset player skill
-     * @param sender the sender
-     * @param playerName the player name
-     * @param skillName the skill name
-     */
+    
+
     private void resetPlayerSkill(CommandSender sender, String playerName, String skillName) {
         Player target = Bukkit.getPlayer(playerName);
         if (target == null) {
@@ -133,13 +131,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
         target.sendMessage(ChatColor.YELLOW + "Your " + skill.getDisplayName() + " skill has been reset by an admin.");
     }
 
-    /**
-     * Set player skill level
-     * @param sender the sender
-     * @param playerName the player name
-     * @param skillName the skill name
-     * @param levelStr the level string
-     */
+    
+
     private void setPlayerSkillLevel(CommandSender sender, String playerName, String skillName, String levelStr) {
         Player target = Bukkit.getPlayer(playerName);
         if (target == null) {
@@ -174,13 +167,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
         target.sendMessage(ChatColor.YELLOW + "Your " + skill.getDisplayName() + " level has been set to " + level + " by an admin.");
     }
 
-    /**
-     * Add experience to player skill
-     * @param sender the sender
-     * @param playerName the player name
-     * @param skillName the skill name
-     * @param amountStr the amount string
-     */
+    
+
     private void addPlayerSkillExp(CommandSender sender, String playerName, String skillName, String amountStr) {
         Player target = Bukkit.getPlayer(playerName);
         if (target == null) {
@@ -218,13 +206,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
         }
     }
 
-    /**
-     * Remove experience from player skill
-     * @param sender the sender
-     * @param playerName the player name
-     * @param skillName the skill name
-     * @param amountStr the amount string
-     */
+    
+
     private void removePlayerSkillExp(CommandSender sender, String playerName, String skillName, String amountStr) {
         Player target = Bukkit.getPlayer(playerName);
         if (target == null) {
@@ -254,7 +237,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
         UUID targetUuid = target.getUniqueId();
         double currentExp = plugin.getDataManager().getPlayerData(targetUuid).getSkillExp(skill.getName());
 
-        // Don't allow negative experience
+       
+
         amount = Math.min(amount, currentExp);
 
         plugin.getDataManager().addExperience(targetUuid, skill.getName(), -amount);
@@ -267,15 +251,18 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            // Add subcommands
+           
+
             completions.addAll(Arrays.asList("reload", "reset", "setlevel", "addexp", "removeexp"));
 
-            // Filter by current input
+           
+
             return completions.stream()
                     .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
                     .collect(Collectors.toList());
         } else if (args.length == 2) {
-            // If first argument requires a player name, suggest online players
+           
+
             if (args[0].equalsIgnoreCase("reset") ||
                     args[0].equalsIgnoreCase("setlevel") ||
                     args[0].equalsIgnoreCase("addexp") ||
@@ -287,7 +274,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                         .collect(Collectors.toList());
             }
         } else if (args.length == 3) {
-            // If second argument requires a skill name, suggest skills
+           
+
             if (args[0].equalsIgnoreCase("reset") ||
                     args[0].equalsIgnoreCase("setlevel") ||
                     args[0].equalsIgnoreCase("addexp") ||
@@ -301,7 +289,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                         .collect(Collectors.toList());
             }
         } else if (args.length == 4) {
-            // If command is setlevel, suggest some common levels
+           
+
             if (args[0].equalsIgnoreCase("setlevel")) {
                 completions.addAll(Arrays.asList("1", "10", "25", "50", "75", "100"));
 
@@ -310,7 +299,8 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
                         .collect(Collectors.toList());
             }
 
-            // If command is addexp or removeexp, suggest some common amounts
+           
+
             if (args[0].equalsIgnoreCase("addexp") || args[0].equalsIgnoreCase("removeexp")) {
                 completions.addAll(Arrays.asList("10", "100", "1000", "10000"));
 

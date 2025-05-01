@@ -25,30 +25,36 @@ public class OrbisSkills extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Set instance
+       
+
         instance = this;
 
-        // Check server version
+       
+
         String version = getServer().getBukkitVersion();
         if (!version.contains("1.21")) {
             getLogger().warning("OrbisSkills is designed for 1.21.3. You're running " + version);
             getLogger().warning("Some features may not work correctly!");
         }
 
-        // Check for PlaceholderAPI
+       
+
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
             getLogger().warning("PlaceholderAPI not found! Placeholder support will be disabled.");
         } else {
             getLogger().info("PlaceholderAPI found! Registering expansions...");
-            // Register placeholder expansion
+           
+
             new OrbisSkillsPlaceholderExpansion(this).register();
         }
 
-        // Initialize managers
+       
+
         configManager = new ConfigManager(this);
         configManager.loadConfigs();
 
-        // Initialize storage based on config
+       
+
         String storageType = getConfig().getString("storage.type", "yaml");
         if (storageType.equalsIgnoreCase("mysql") || storageType.equalsIgnoreCase("sqlite")) {
             storage = new SQLStorage(this);
@@ -62,16 +68,19 @@ public class OrbisSkills extends JavaPlugin {
         skillManager = new SkillManager(this);
         skillManager.registerSkills();
 
-        // Initialize custom skill manager
+       
+
         customSkillManager = new CustomSkillManager(this);
         customSkillManager.loadCustomSkills();
 
-        // Register event listeners
+       
+
         getServer().getPluginManager().registerEvents(new SkillExpListeners(this), this);
         getServer().getPluginManager().registerEvents(new AbilityListeners(this), this);
         getServer().getPluginManager().registerEvents(new CustomSkillListeners(this), this);
 
-        // Register commands
+       
+
         getCommand("skills").setExecutor(new SkillsCommand(this));
         getCommand("skillsadmin").setExecutor(new AdminCommand(this));
 
@@ -80,12 +89,14 @@ public class OrbisSkills extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Save all player data
+       
+
         if (dataManager != null) {
             dataManager.saveAllData();
         }
 
-        // Close storage connections
+       
+
         if (storage != null) {
             storage.close();
         }
@@ -93,50 +104,38 @@ public class OrbisSkills extends JavaPlugin {
         getLogger().info("OrbisSkills has been disabled!");
     }
 
-    /**
-     * Get the plugin instance
-     * @return the plugin instance
-     */
+    
+
     public static OrbisSkills getInstance() {
         return instance;
     }
 
-    /**
-     * Get the config manager
-     * @return the config manager
-     */
+    
+
     public ConfigManager getConfigManager() {
         return configManager;
     }
 
-    /**
-     * Get the data manager
-     * @return the data manager
-     */
+    
+
     public DataManager getDataManager() {
         return dataManager;
     }
 
-    /**
-     * Get the skill manager
-     * @return the skill manager
-     */
+    
+
     public SkillManager getSkillManager() {
         return skillManager;
     }
 
-    /**
-     * Get the custom skill manager
-     * @return the custom skill manager
-     */
+    
+
     public CustomSkillManager getCustomSkillManager() {
         return customSkillManager;
     }
 
-    /**
-     * Get the storage implementation
-     * @return the storage implementation
-     */
+    
+
     public Storage getStorage() {
         return storage;
     }

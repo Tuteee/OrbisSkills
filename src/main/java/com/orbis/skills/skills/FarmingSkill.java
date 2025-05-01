@@ -24,22 +24,21 @@ public class FarmingSkill extends Skill {
     private final Random random = new Random();
     private final Map<Material, Double> cropExpValues = new HashMap<>();
 
-    /**
-     * Create a new farming skill
-     * @param plugin the plugin instance
-     */
+    
+
     public FarmingSkill(OrbisSkills plugin) {
         super(plugin, "farming");
 
-        // Initialize crop experience values
+       
+
         initCropExpValues();
     }
 
-    /**
-     * Initialize crop experience values
-     */
+    
+
     private void initCropExpValues() {
-        // Default experience values
+       
+
         cropExpValues.put(Material.WHEAT, 7.5);
         cropExpValues.put(Material.POTATOES, 7.0);
         cropExpValues.put(Material.CARROTS, 7.0);
@@ -55,7 +54,8 @@ public class FarmingSkill extends Skill {
         cropExpValues.put(Material.KELP, 3.0);
         cropExpValues.put(Material.SEA_PICKLE, 5.0);
 
-        // Load custom values from config if available
+       
+
         FileConfiguration config = plugin.getConfig();
         ConfigurationSection expSection = config.getConfigurationSection("experience.crop-values");
 
@@ -74,18 +74,19 @@ public class FarmingSkill extends Skill {
 
     @Override
     protected void registerAbilities() {
-        // Register default abilities
+       
+
         registerAbility(new GreenThumbAbility(10));
         registerAbility(new BountifulHarvestAbility(30));
         registerAbility(new NaturesBlessingAbility(50));
 
-        // Load additional abilities from config
+       
+
         loadConfiguredAbilities();
     }
 
-    /**
-     * Load additional abilities from config
-     */
+    
+
     private void loadConfiguredAbilities() {
         FileConfiguration config = YamlConfiguration.loadConfiguration(
                 new File(plugin.getDataFolder(), "config/abilities/farming_abilities.yml"));
@@ -108,21 +109,19 @@ public class FarmingSkill extends Skill {
         }
     }
 
-    /**
-     * Handle crop harvesting
-     * @param player the player
-     * @param block the harvested block
-     * @return true if the event should be cancelled
-     */
+    
+
     public boolean handleHarvest(Player player, Block block) {
         Material cropType = block.getType();
 
-        // Check if it's a valid crop
+       
+
         if (!cropExpValues.containsKey(cropType)) {
             return false;
         }
 
-        // Check if crop is fully grown (for Ageable blocks)
+       
+
         if (block.getBlockData() instanceof Ageable) {
             Ageable ageable = (Ageable) block.getBlockData();
             if (ageable.getAge() < ageable.getMaximumAge()) {
@@ -130,38 +129,48 @@ public class FarmingSkill extends Skill {
             }
         }
 
-        // Get player level
+       
+
         int level = plugin.getDataManager().getPlayerData(player.getUniqueId()).getSkillLevel(name);
 
-        // Add base experience
+       
+
         double baseExp = cropExpValues.getOrDefault(cropType, 5.0);
         addExperience(player, baseExp);
 
-        // Apply GreenThumb ability (chance for auto-replant)
+       
+
         Ability greenThumb = getAbility("greenthumb");
         if (greenThumb != null && level >= greenThumb.getUnlockLevel()) {
             double chance = greenThumb.getEffectForLevel(level);
 
             if (random.nextDouble() < chance) {
-                // Trigger ability
+               
+
                 if (greenThumb.trigger(player, plugin, 0)) {
-                    // Auto-replant logic would go here
-                    // For now, we'll just give some extra experience
+                   
+
+                   
+
                     addExperience(player, baseExp * 0.5);
                 }
             }
         }
 
-        // Apply BountifulHarvest ability (chance for extra drops)
+       
+
         Ability bountifulHarvest = getAbility("bountifulharvest");
         if (bountifulHarvest != null && level >= bountifulHarvest.getUnlockLevel()) {
             double chance = bountifulHarvest.getEffectForLevel(level);
 
             if (random.nextDouble() < chance) {
-                // Trigger ability
+               
+
                 if (bountifulHarvest.trigger(player, plugin, 0)) {
-                    // Logic for extra drops would go here
-                    // This would normally modify the drops
+                   
+
+                   
+
                     addExperience(player, baseExp * 0.5);
                 }
             }
@@ -170,40 +179,39 @@ public class FarmingSkill extends Skill {
         return false;
     }
 
-    /**
-     * Handle planting crops
-     * @param player the player
-     * @param block the block being planted on
-     * @param item the item being planted
-     */
+    
+
     public void handlePlanting(Player player, Block block, ItemStack item) {
-        // Get player level
+       
+
         int level = plugin.getDataManager().getPlayerData(player.getUniqueId()).getSkillLevel(name);
 
-        // Add a small amount of experience for planting
+       
+
         addExperience(player, 1.0);
 
-        // Apply NaturesBlessing ability (chance for instant growth)
+       
+
         Ability naturesBlessing = getAbility("naturesblessing");
         if (naturesBlessing != null && level >= naturesBlessing.getUnlockLevel()) {
             double chance = naturesBlessing.getEffectForLevel(level);
 
             if (random.nextDouble() < chance) {
-                // Trigger ability
+               
+
                 if (naturesBlessing.trigger(player, plugin, 0)) {
-                    // Logic for instant growth would go here
-                    // This would normally accelerate crop growth
+                   
+
+                   
+
                     addExperience(player, 5.0);
                 }
             }
         }
     }
 
-    /**
-     * Get an ability
-     * @param abilityName the ability name
-     * @return the ability, or null if not found
-     */
+    
+
     public Ability getAbility(String abilityName) {
         return abilities.get(abilityName.toLowerCase());
     }

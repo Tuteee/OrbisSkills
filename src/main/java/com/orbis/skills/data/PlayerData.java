@@ -16,23 +16,19 @@ public class PlayerData implements ConfigurationSerializable {
     private final Map<String, Double> skillExperience = new HashMap<>();
     private boolean dirty = false;
 
-    /**
-     * Create new player data
-     * @param uuid the player UUID
-     */
+    
+
     public PlayerData(UUID uuid) {
         this.uuid = uuid;
     }
 
-    /**
-     * Create player data from a serialized map
-     * @param uuid the player UUID
-     * @param map the serialized map
-     */
+    
+
     public PlayerData(UUID uuid, Map<String, Object> map) {
         this.uuid = uuid;
 
-        // Load skill levels
+       
+
         Object levelsObj = map.get("levels");
         if (levelsObj instanceof Map) {
             Map<?, ?> levelsMap = (Map<?, ?>) levelsObj;
@@ -43,7 +39,8 @@ public class PlayerData implements ConfigurationSerializable {
             }
         }
 
-        // Load skill experience
+       
+
         Object expObj = map.get("experience");
         if (expObj instanceof Map) {
             Map<?, ?> expMap = (Map<?, ?>) expObj;
@@ -60,37 +57,26 @@ public class PlayerData implements ConfigurationSerializable {
         }
     }
 
-    /**
-     * Get the player UUID
-     * @return the UUID
-     */
+    
+
     public UUID getUuid() {
         return uuid;
     }
 
-    /**
-     * Get skill level
-     * @param skillName the skill name
-     * @return the skill level
-     */
+    
+
     public int getSkillLevel(String skillName) {
         return skillLevels.getOrDefault(skillName.toLowerCase(), 0);
     }
 
-    /**
-     * Get skill experience
-     * @param skillName the skill name
-     * @return the skill experience
-     */
+    
+
     public double getSkillExp(String skillName) {
         return skillExperience.getOrDefault(skillName.toLowerCase(), 0.0);
     }
 
-    /**
-     * Get experience needed for next level
-     * @param skillName the skill name
-     * @return the experience needed
-     */
+    
+
     public double getExpToNextLevel(String skillName) {
         int currentLevel = getSkillLevel(skillName);
         double currentExp = getSkillExp(skillName);
@@ -98,11 +84,8 @@ public class PlayerData implements ConfigurationSerializable {
         return ExperienceUtil.getExpToNextLevel(currentLevel) - currentExp;
     }
 
-    /**
-     * Get level progress as a decimal (0.0 - 1.0)
-     * @param skillName the skill name
-     * @return the level progress
-     */
+    
+
     public double getLevelProgress(String skillName) {
         int currentLevel = getSkillLevel(skillName);
         double currentExp = getSkillExp(skillName);
@@ -115,11 +98,8 @@ public class PlayerData implements ConfigurationSerializable {
         return Math.min(1.0, currentExp / expNeeded);
     }
 
-    /**
-     * Get skill rank (based on level)
-     * @param skillName the skill name
-     * @return the skill rank
-     */
+    
+
     public String getSkillRank(String skillName) {
         int level = getSkillLevel(skillName);
 
@@ -131,45 +111,37 @@ public class PlayerData implements ConfigurationSerializable {
         return "Novice";
     }
 
-    /**
-     * Set skill level
-     * @param skillName the skill name
-     * @param level the level
-     */
+    
+
     public void setSkillLevel(String skillName, int level) {
         skillLevels.put(skillName.toLowerCase(), Math.max(0, level));
         setDirty(true);
     }
 
-    /**
-     * Set skill experience
-     * @param skillName the skill name
-     * @param experience the experience
-     */
+    
+
     public void setSkillExp(String skillName, double experience) {
         skillExperience.put(skillName.toLowerCase(), Math.max(0, experience));
         setDirty(true);
     }
 
-    /**
-     * Add skill experience
-     * @param skillName the skill name
-     * @param amount the amount to add
-     * @return true if leveled up
-     */
+    
+
     public boolean addSkillExp(String skillName, double amount) {
         String key = skillName.toLowerCase();
         int oldLevel = getSkillLevel(key);
         double newExp = getSkillExp(key) + amount;
 
-        // Apply experience and check for level ups
+       
+
         int newLevel = oldLevel;
         while (newExp >= ExperienceUtil.getExpToNextLevel(newLevel)) {
             newExp -= ExperienceUtil.getExpToNextLevel(newLevel);
             newLevel++;
         }
 
-        // Update data
+       
+
         skillExperience.put(key, newExp);
         skillLevels.put(key, newLevel);
         setDirty(true);
@@ -177,10 +149,8 @@ public class PlayerData implements ConfigurationSerializable {
         return newLevel > oldLevel;
     }
 
-    /**
-     * Reset skill
-     * @param skillName the skill name
-     */
+    
+
     public void resetSkill(String skillName) {
         String key = skillName.toLowerCase();
         skillLevels.put(key, 0);
@@ -188,9 +158,8 @@ public class PlayerData implements ConfigurationSerializable {
         setDirty(true);
     }
 
-    /**
-     * Reset all skills
-     */
+    
+
     public void resetAllSkills() {
         for (String key : skillLevels.keySet()) {
             skillLevels.put(key, 0);
@@ -199,10 +168,8 @@ public class PlayerData implements ConfigurationSerializable {
         setDirty(true);
     }
 
-    /**
-     * Get total level (sum of all skill levels)
-     * @return the total level
-     */
+    
+
     public int getTotalLevel() {
         int total = 0;
         for (int level : skillLevels.values()) {
@@ -211,26 +178,20 @@ public class PlayerData implements ConfigurationSerializable {
         return total;
     }
 
-    /**
-     * Check if data is dirty (needs saving)
-     * @return true if dirty
-     */
+    
+
     public boolean isDirty() {
         return dirty;
     }
 
-    /**
-     * Set dirty flag
-     * @param dirty the dirty flag
-     */
+    
+
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
     }
 
-    /**
-     * Initialize a skill if it doesn't exist
-     * @param skillName the skill name
-     */
+    
+
     public void initializeSkill(String skillName) {
         String key = skillName.toLowerCase();
         if (!skillLevels.containsKey(key)) {

@@ -32,7 +32,8 @@ public class OrbisSkillsPlaceholderExpansion extends PlaceholderExpansion {
 
     @Override
     public boolean persist() {
-        return true; // This is required or else PlaceholderAPI will unregister the expansion on reload
+        return true;
+
     }
 
     @Override
@@ -46,12 +47,14 @@ public class OrbisSkillsPlaceholderExpansion extends PlaceholderExpansion {
             return "0";
         }
 
-        // Handle general placeholders
+       
+
         if (identifier.equals("total_level")) {
             return String.valueOf(playerData.getTotalLevel());
         }
 
-        // Handle skill-specific placeholders
+       
+
         String[] parts = identifier.split("_");
 
         if (parts.length == 2) {
@@ -79,18 +82,21 @@ public class OrbisSkillsPlaceholderExpansion extends PlaceholderExpansion {
             }
         }
 
-        // Handle ability placeholders
+       
+
         if (parts.length == 3 && parts[1].equals("ability")) {
             String skillName = parts[0].toLowerCase();
             String abilityName = parts[2].toLowerCase();
 
-            // Check if skill exists
+           
+
             Skill skill = plugin.getSkillManager().getSkill(skillName);
             if (skill == null) {
                 return "0";
             }
 
-            // Return ability info
+           
+
             if (skill.hasAbility(abilityName)) {
                 return skill.getAbilityInfo(player, abilityName);
             }
@@ -98,6 +104,7 @@ public class OrbisSkillsPlaceholderExpansion extends PlaceholderExpansion {
             return "0";
         }
 
-        return null; // Unknown placeholder
+        return null;
+
     }
 }

@@ -26,32 +26,32 @@ public class FishingSkill extends Skill {
     private final Map<String, Map<Material, Double>> tierDrops = new HashMap<>();
     private final Map<String, Map<String, CustomDrop>> tierCustomDrops = new HashMap<>();
 
-    /**
-     * Create a new fishing skill
-     * @param plugin the plugin instance
-     */
+    
+
     public FishingSkill(OrbisSkills plugin) {
         super(plugin, "fishing");
 
-        // Load fishing drops from config
+       
+
         loadFishingDrops();
     }
 
     @Override
     protected void registerAbilities() {
-        // Register default abilities
+       
+
         registerAbility(new DoubleDropAbility(10));
         registerAbility(new ExperiencedFisherAbility(20));
         registerAbility(new TreasureHunterAbility(30));
         registerAbility(new MasterAnglerAbility(50));
 
-        // Load additional abilities from config
+       
+
         loadConfiguredAbilities();
     }
 
-    /**
-     * Load additional abilities from config
-     */
+    
+
     private void loadConfiguredAbilities() {
         FileConfiguration config = YamlConfiguration.loadConfiguration(
                 new File(plugin.getDataFolder(), "config/abilities/fishing_abilities.yml"));
@@ -74,9 +74,8 @@ public class FishingSkill extends Skill {
         }
     }
 
-    /**
-     * Load fishing drops from config
-     */
+    
+
     private void loadFishingDrops() {
         FileConfiguration dropsConfig = YamlConfiguration.loadConfiguration(
                 new File(plugin.getDataFolder(), "config/drops/fishing_drops.yml"));
@@ -96,13 +95,15 @@ public class FishingSkill extends Skill {
             Map<Material, Double> materialDrops = new HashMap<>();
             Map<String, CustomDrop> customDrops = new HashMap<>();
 
-            // Parse level range
+           
+
             String levelRange = tierSection.getString("level-range", "1-100");
             String[] parts = levelRange.split("-");
             int minLevel = Integer.parseInt(parts[0]);
             int maxLevel = Integer.parseInt(parts[1]);
 
-            // Parse regular drops
+           
+
             ConfigurationSection dropsSection = tierSection.getConfigurationSection("drops");
             if (dropsSection != null) {
                 for (String materialName : dropsSection.getKeys(false)) {
@@ -120,7 +121,8 @@ public class FishingSkill extends Skill {
                 }
             }
 
-            // Parse custom drops
+           
+
             ConfigurationSection customItemsSection = dropsSection != null ?
                     dropsSection.getConfigurationSection("custom-items") : null;
 
@@ -145,14 +147,16 @@ public class FishingSkill extends Skill {
 
                     CustomDrop customDrop = new CustomDrop(material, chance, name);
 
-                    // Add lore
+                   
+
                     if (itemSection.isList("lore")) {
                         for (String loreLine : itemSection.getStringList("lore")) {
                             customDrop.addLoreLine(loreLine);
                         }
                     }
 
-                    // Add NBT
+                   
+
                     ConfigurationSection nbtSection = itemSection.getConfigurationSection("nbt");
                     if (nbtSection != null) {
                         for (String nbtKey : nbtSection.getKeys(false)) {
@@ -173,39 +177,38 @@ public class FishingSkill extends Skill {
         }
     }
 
-    /**
-     * Handle player catching a fish
-     * @param player the player
-     * @param exp the base experience
-     */
+    
+
     public void handleFishCaught(Player player, double exp) {
-        // Add experience
+       
+
         addExperience(player, exp);
 
-        // Check for double drop ability
+       
+
         if (abilities.containsKey("doubledrop")) {
             Ability doubleDropAbility = abilities.get("doubledrop");
             int playerLevel = plugin.getDataManager().getPlayerData(player.getUniqueId()).getSkillLevel(name);
 
             if (playerLevel >= doubleDropAbility.getUnlockLevel() &&
                     random.nextDouble() < doubleDropAbility.getEffectForLevel(playerLevel)) {
-                // Apply double drop effect (would be implemented elsewhere)
+               
+
             }
         }
     }
 
-    /**
-     * Handle special drop for a player
-     * @param player the player
-     * @return the special drop item, or null if no drop
-     */
+    
+
     public ItemStack handleSpecialDrop(Player player) {
         int playerLevel = plugin.getDataManager().getPlayerData(player.getUniqueId()).getSkillLevel(name);
 
-        // Determine which tier to use based on player level
+       
+
         String tierToUse = null;
         for (String tierKey : tierDrops.keySet()) {
-            // Parse level range from tier key format (e.g., tier1 for levels 1-10)
+           
+
             ConfigurationSection tierSection = plugin.getConfigManager()
                     .getDropsConfig("fishing_drops").getConfigurationSection("special-drops." + tierKey);
 
@@ -228,7 +231,8 @@ public class FishingSkill extends Skill {
             return null;
         }
 
-        // Check for treasure hunter ability
+       
+
         double dropChanceMultiplier = 1.0;
         if (abilities.containsKey("treasurehunter")) {
             Ability treasureHunterAbility = abilities.get("treasurehunter");
@@ -237,7 +241,8 @@ public class FishingSkill extends Skill {
             }
         }
 
-        // Roll for regular material drops
+       
+
         Map<Material, Double> drops = tierDrops.get(tierToUse);
         for (Map.Entry<Material, Double> entry : drops.entrySet()) {
             double chance = entry.getValue() * dropChanceMultiplier;
@@ -246,7 +251,8 @@ public class FishingSkill extends Skill {
             }
         }
 
-        // Roll for custom drops
+       
+
         Map<String, CustomDrop> customDrops = tierCustomDrops.get(tierToUse);
         for (CustomDrop customDrop : customDrops.values()) {
             double chance = customDrop.getChance() * dropChanceMultiplier;
@@ -258,9 +264,8 @@ public class FishingSkill extends Skill {
         return null;
     }
 
-    /**
-     * Class to represent a custom drop item
-     */
+    
+
     private static class CustomDrop {
         private final Material material;
         private final double chance;
@@ -297,8 +302,10 @@ public class FishingSkill extends Skill {
 
         public ItemStack createItemStack() {
             ItemStack item = new ItemStack(material);
-            // Code to set item name, lore, and NBT would be implemented here
-            // This depends on the server version and available APIs
+           
+
+           
+
             return item;
         }
     }

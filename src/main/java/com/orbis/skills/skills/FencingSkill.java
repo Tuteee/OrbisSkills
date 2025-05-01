@@ -33,22 +33,21 @@ public class FencingSkill extends Skill {
     private final Map<UUID, Long> lastDamagedTime = new ConcurrentHashMap<>();
     private final Map<UUID, UUID> lastAttacker = new ConcurrentHashMap<>();
 
-    /**
-     * Create a new fencing skill
-     * @param plugin the plugin instance
-     */
+    
+
     public FencingSkill(OrbisSkills plugin) {
         super(plugin, "fencing");
 
-        // Initialize mob experience values
+       
+
         initMobExpValues();
     }
 
-    /**
-     * Initialize mob experience values
-     */
+    
+
     private void initMobExpValues() {
-        // Default experience values
+       
+
         mobExpValues.put(EntityType.ZOMBIE, 5.0);
         mobExpValues.put(EntityType.SKELETON, 6.0);
         mobExpValues.put(EntityType.CREEPER, 7.0);
@@ -59,9 +58,11 @@ public class FencingSkill extends Skill {
         mobExpValues.put(EntityType.MAGMA_CUBE, 3.0);
         mobExpValues.put(EntityType.BLAZE, 7.0);
         mobExpValues.put(EntityType.PIGLIN, 6.0);
-        mobExpValues.put(EntityType.PLAYER, 15.0); // PvP
+        mobExpValues.put(EntityType.PLAYER, 15.0);
 
-        // Load custom values from config if available
+
+       
+
         FileConfiguration config = plugin.getConfig();
         ConfigurationSection expSection = config.getConfigurationSection("experience.fencing-values");
 
@@ -80,18 +81,19 @@ public class FencingSkill extends Skill {
 
     @Override
     protected void registerAbilities() {
-        // Register default abilities
+       
+
         registerAbility(new BleedAbility(10));
         registerAbility(new ParryAbility(30));
         registerAbility(new CounterAttackAbility(50));
 
-        // Load additional abilities from config
+       
+
         loadConfiguredAbilities();
     }
 
-    /**
-     * Load additional abilities from config
-     */
+    
+
     private void loadConfiguredAbilities() {
         FileConfiguration config = YamlConfiguration.loadConfiguration(
                 new File(plugin.getDataFolder(), "config/abilities/fencing_abilities.yml"));
@@ -114,13 +116,8 @@ public class FencingSkill extends Skill {
         }
     }
 
-    /**
-     * Handle entity damage for fencing
-     * @param player the player
-     * @param target the target entity
-     * @param damage the damage dealt
-     * @return the modified damage
-     */
+    
+
     public double handleDamage(Player player, Entity target, double damage) {
         if (!(target instanceof LivingEntity)) {
             return damage;
@@ -128,34 +125,42 @@ public class FencingSkill extends Skill {
 
         LivingEntity livingTarget = (LivingEntity) target;
 
-        // Check if player is using a sword
+       
+
         ItemStack handItem = player.getInventory().getItemInMainHand();
         if (!isSword(handItem.getType())) {
             return damage;
         }
 
-        // Get entity type for experience
+       
+
         EntityType entityType = target.getType();
 
-        // Add base experience based on entity type and damage
+       
+
         double baseExp = mobExpValues.getOrDefault(entityType, 5.0);
         double damageMultiplier = Math.min(damage / 5.0, 3.0);
 
-        // Add experience
+       
+
         addExperience(player, baseExp * damageMultiplier);
 
-        // Get player level
+       
+
         int level = plugin.getDataManager().getPlayerData(player.getUniqueId()).getSkillLevel(name);
 
-        // Apply Bleed ability
+       
+
         Ability bleedAbility = getAbility("bleed");
         if (bleedAbility != null && level >= bleedAbility.getUnlockLevel()) {
             double chance = bleedAbility.getEffectForLevel(level);
 
             if (random.nextDouble() < chance) {
-                // Trigger ability
+               
+
                 if (bleedAbility.trigger(player, plugin, 0)) {
-                    // Apply bleed effect
+                   
+
                     applyBleedEffect(livingTarget, level);
                 }
             }
@@ -164,20 +169,22 @@ public class FencingSkill extends Skill {
         return damage;
     }
 
-    /**
-     * Apply bleed effect to target
-     * @param target the target entity
-     * @param level the player's skill level
-     */
-    private void applyBleedEffect(LivingEntity target, int level) {
-        // Calculate duration and damage
-        int duration = 3 + (level / 20); // 3-8 seconds based on level
-        final double damagePerTick = 0.5 + (level / 100.0); // 0.5-1.5 damage per tick
+    
 
-        // Create bleed effect (damage over time)
+    private void applyBleedEffect(LivingEntity target, int level) {
+       
+
+        int duration = 3 + (level / 20);
+
+        final double damagePerTick = 0.5 + (level / 100.0);
+
+
+       
+
         new BukkitRunnable() {
             int ticks = 0;
-            final int maxTicks = duration * 2; // Every half-second
+            final int maxTicks = duration * 2;
+
 
             @Override
             public void run() {
@@ -186,31 +193,30 @@ public class FencingSkill extends Skill {
                     return;
                 }
 
-                // Apply damage
+               
+
                 double health = target.getHealth();
                 if (health > damagePerTick) {
                     target.setHealth(health - damagePerTick);
                 } else {
-                    target.setHealth(0.1); // Don't kill directly, leave at minimal health
+                    target.setHealth(0.1);
+
                 }
 
-                // Create blood particle effect
+               
+
                 target.getWorld().spawnParticle(Particle.DUST,
                         target.getLocation().add(0, 1, 0), 5, 0.3, 0.3, 0.3, 0,
                         new org.bukkit.Particle.DustOptions(org.bukkit.Color.RED, 1));
 
                 ticks++;
             }
-        }.runTaskTimer(plugin, 10L, 10L); // Every half-second
+        }.runTaskTimer(plugin, 10L, 10L);
+
     }
 
-    /**
-     * Handle player being damaged (for parry and counter)
-     * @param player the player
-     * @param attacker the attacker entity
-     * @param damage the damage received
-     * @return the modified damage
-     */
+    
+
     public double handlePlayerDamaged(Player player, Entity attacker, double damage) {
         if (!(attacker instanceof LivingEntity)) {
             return damage;
@@ -218,33 +224,41 @@ public class FencingSkill extends Skill {
 
         LivingEntity livingAttacker = (LivingEntity) attacker;
 
-        // Get player level
+       
+
         int level = plugin.getDataManager().getPlayerData(player.getUniqueId()).getSkillLevel(name);
         UUID playerUuid = player.getUniqueId();
 
-        // Store last attacker for counter ability
+       
+
         lastAttacker.put(playerUuid, attacker.getUniqueId());
         lastDamagedTime.put(playerUuid, System.currentTimeMillis());
 
-        // Check if player is using a sword
+       
+
         ItemStack handItem = player.getInventory().getItemInMainHand();
         if (!isSword(handItem.getType())) {
             return damage;
         }
 
-        // Apply Parry ability
+       
+
         Ability parryAbility = getAbility("parry");
         if (parryAbility != null && level >= parryAbility.getUnlockLevel()) {
             double chance = parryAbility.getEffectForLevel(level);
 
             if (random.nextDouble() < chance) {
-                // Trigger ability
+               
+
                 if (parryAbility.trigger(player, plugin, 0)) {
-                    // Apply parry effect (reduce damage)
-                    double reduction = 0.3 + (level / 200.0); // 30-80% reduction
+                   
+
+                    double reduction = 0.3 + (level / 200.0);
+
                     reduction = Math.min(reduction, 0.8);
 
-                    // Send message
+                   
+
                     player.sendMessage(plugin.getConfigManager().getColoredString("messages.ability-activate")
                             .replace("{ability}", "Parry")
                             .replace("{value}", String.format("%.0f%%", reduction * 100)));
@@ -257,43 +271,49 @@ public class FencingSkill extends Skill {
         return damage;
     }
 
-    /**
-     * Handle counter attack
-     * @param player the player
-     * @param target the target entity
-     */
+    
+
     public void handleCounterAttack(Player player, Entity target) {
         UUID playerUuid = player.getUniqueId();
 
-        // Check if this is a counter attack
+       
+
         if (!lastAttacker.containsKey(playerUuid) || !lastDamagedTime.containsKey(playerUuid)) {
             return;
         }
 
-        // Check if target is the last attacker
+       
+
         if (!target.getUniqueId().equals(lastAttacker.get(playerUuid))) {
             return;
         }
 
-        // Check time window (5 seconds)
+       
+
         long currentTime = System.currentTimeMillis();
         long lastDamaged = lastDamagedTime.get(playerUuid);
         if (currentTime - lastDamaged > 5000) {
             return;
         }
 
-        // Get player level
+       
+
         int level = plugin.getDataManager().getPlayerData(playerUuid).getSkillLevel(name);
 
-        // Apply CounterAttack ability
+       
+
         Ability counterAttackAbility = getAbility("counterattack");
         if (counterAttackAbility != null && level >= counterAttackAbility.getUnlockLevel()) {
-            // Trigger ability with a 30-second cooldown
-            if (counterAttackAbility.trigger(player, plugin, 30)) {
-                // Apply counter effect (bonus damage)
-                double bonusDamage = 4.0 + (level / 10.0); // 4-14 bonus damage
+           
 
-                // We can't modify the damage directly, but we can apply it separately
+            if (counterAttackAbility.trigger(player, plugin, 30)) {
+               
+
+                double bonusDamage = 4.0 + (level / 10.0);
+
+
+               
+
                 if (target instanceof LivingEntity) {
                     LivingEntity livingTarget = (LivingEntity) target;
                     if (livingTarget.getHealth() > bonusDamage) {
@@ -302,13 +322,17 @@ public class FencingSkill extends Skill {
                         livingTarget.setHealth(0.1);
                     }
 
-                    // Apply weakness effect
+                   
+
                     livingTarget.addPotionEffect(new PotionEffect(
                             PotionEffectType.WEAKNESS,
-                            5 * 20, // 5 seconds
-                            1)); // level 2
+                            5 * 20,
 
-                    // Send message
+                            1));
+
+
+                   
+
                     player.sendMessage(plugin.getConfigManager().getColoredString("messages.ability-activate")
                             .replace("{ability}", "Counter Attack")
                             .replace("{value}", String.format("%.1f", bonusDamage)));
@@ -317,20 +341,15 @@ public class FencingSkill extends Skill {
         }
     }
 
-    /**
-     * Clean up data for player
-     * @param uuid the player UUID
-     */
+    
+
     public void cleanupPlayer(UUID uuid) {
         lastAttacker.remove(uuid);
         lastDamagedTime.remove(uuid);
     }
 
-    /**
-     * Check if a material is a sword
-     * @param type the material type
-     * @return true if it's a sword
-     */
+    
+
     private boolean isSword(Material type) {
         switch (type) {
             case WOODEN_SWORD:
@@ -345,48 +364,47 @@ public class FencingSkill extends Skill {
         }
     }
 
-    /**
-     * Get an ability
-     * @param abilityName the ability name
-     * @return the ability, or null if not found
-     */
+    
+
     public Ability getAbility(String abilityName) {
         return abilities.get(abilityName.toLowerCase());
     }
 
-    /**
-     * Get combo multiplier for consecutive hits
-     * @param player the player
-     * @param consecutiveHits the number of consecutive hits
-     * @return the damage multiplier
-     */
+    
+
     public double getComboMultiplier(Player player, int consecutiveHits) {
         int level = plugin.getDataManager().getPlayerData(player.getUniqueId()).getSkillLevel(name);
 
-        // Base multiplier
+       
+
         double baseMultiplier = 1.0;
 
-        // Add bonus based on consecutive hits and level
-        double bonus = Math.min(consecutiveHits * 0.05, 0.3); // Max 30% bonus
+       
 
-        // Level bonus (up to 20% at level 100)
-        double levelBonus = level / 500.0; // 0-20%
+        double bonus = Math.min(consecutiveHits * 0.05, 0.3);
+
+
+       
+
+        double levelBonus = level / 500.0;
+
 
         return baseMultiplier + bonus + levelBonus;
     }
 
-    /**
-     * Apply sword enchantment effects based on skill level
-     * @param player the player
-     * @param sword the sword item
-     */
+    
+
     public void applySkillEnchantmentEffects(Player player, ItemStack sword) {
         int level = plugin.getDataManager().getPlayerData(player.getUniqueId()).getSkillLevel(name);
 
-        // This would be implemented to add temporary enchantment-like effects
-        // based on the player's skill level
+       
 
-        // For real implementation, you might use attribute modifiers or
-        // custom item meta to enhance the sword temporarily
+       
+
+
+       
+
+       
+
     }
 }

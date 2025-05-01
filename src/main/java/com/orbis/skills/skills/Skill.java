@@ -25,67 +25,61 @@ public abstract class Skill {
         this.displayName = plugin.getConfig().getString("skills.display-names." + name,
                 name.substring(0, 1).toUpperCase() + name.substring(1));
 
-        // Register abilities
+        
+
         registerAbilities();
     }
 
-    /**
-     * Register all abilities for this skill
-     */
+    
+
     protected abstract void registerAbilities();
 
-    /**
-     * Get the name of the skill
-     * @return the name of the skill
-     */
+    
+
     public String getName() {
         return name;
     }
 
-    /**
-     * Get the display name of the skill
-     * @return the display name of the skill
-     */
+    
+
     public String getDisplayName() {
         return displayName;
     }
 
-    /**
-     * Add experience to the player for this skill
-     * @param player the player
-     * @param amount the amount of experience
-     */
+    
+
     public void addExperience(Player player, double amount) {
         UUID uuid = player.getUniqueId();
         int oldLevel = plugin.getDataManager().getPlayerData(uuid).getSkillLevel(name);
 
-        // Apply configured multiplier
+       
+
         double multiplier = plugin.getConfig().getDouble("settings.exp-multiplier", 1.0);
-        // Check for permission-based multipliers
+       
+
         if (player.hasPermission("orbisskills." + name + ".multiplier.2")) {
             multiplier = 2.0;
         } else if (player.hasPermission("orbisskills." + name + ".multiplier.1.5")) {
             multiplier = 1.5;
         }
 
-        // Add experience
+       
+
         plugin.getDataManager().addExperience(uuid, name, amount * multiplier);
 
-        // Check for level up
+       
+
         int newLevel = plugin.getDataManager().getPlayerData(uuid).getSkillLevel(name);
         if (newLevel > oldLevel) {
             handleLevelUp(player, oldLevel, newLevel);
         }
     }
 
-    /**
-     * Handle player leveling up
-     * @param player the player
-     * @param oldLevel the old level
-     * @param newLevel the new level
-     */
+    
+
     protected void handleLevelUp(Player player, int oldLevel, int newLevel) {
-        // Fire level up event
+       
+
         SkillLevelUpEvent event = new SkillLevelUpEvent(player, this, oldLevel, newLevel);
         Bukkit.getPluginManager().callEvent(event);
 
@@ -93,14 +87,16 @@ public abstract class Skill {
             return;
         }
 
-        // Display level up message
+       
+
         if (plugin.getConfig().getBoolean("settings.level-up-messages", true)) {
             player.sendMessage(plugin.getConfigManager().getColoredString("messages.level-up")
                     .replace("{skill}", displayName)
                     .replace("{level}", String.valueOf(newLevel)));
         }
 
-        // Show level up title
+       
+
         if (plugin.getConfig().getBoolean("settings.level-up-titles", true)) {
             String title = plugin.getConfigManager().getColoredString("messages.level-up-title")
                     .replace("{skill}", displayName)
@@ -113,7 +109,8 @@ public abstract class Skill {
             player.sendTitle(title, subtitle, 10, 70, 20);
         }
 
-        // Play level up sound
+       
+
         if (plugin.getConfig().getBoolean("settings.level-up-sounds", true)) {
             String soundName = plugin.getConfig().getString("sounds.level-up", "ENTITY_PLAYER_LEVELUP");
             try {
@@ -124,15 +121,13 @@ public abstract class Skill {
             }
         }
 
-        // Check for ability unlocks at this level
+       
+
         checkAbilityUnlocks(player, newLevel);
     }
 
-    /**
-     * Check for ability unlocks at the given level
-     * @param player the player
-     * @param level the level
-     */
+    
+
     private void checkAbilityUnlocks(Player player, int level) {
         for (Ability ability : abilities.values()) {
             if (ability.getUnlockLevel() == level) {
@@ -143,30 +138,20 @@ public abstract class Skill {
         }
     }
 
-    /**
-     * Check if this skill has an ability
-     * @param abilityName the ability name
-     * @return true if the skill has the ability
-     */
+    
+
     public boolean hasAbility(String abilityName) {
         return abilities.containsKey(abilityName.toLowerCase());
     }
 
-    /**
-     * Get an ability by name
-     * @param abilityName the ability name
-     * @return the ability, or null if not found
-     */
+    
+
     public Ability getAbility(String abilityName) {
         return abilities.get(abilityName.toLowerCase());
     }
 
-    /**
-     * Get ability info for a player
-     * @param player the player
-     * @param abilityName the ability name
-     * @return the ability info
-     */
+    
+
     public String getAbilityInfo(Player player, String abilityName) {
         if (!hasAbility(abilityName)) {
             return "0";
@@ -182,19 +167,14 @@ public abstract class Skill {
         return ability.getInfoForLevel(playerLevel);
     }
 
-    /**
-     * Register an ability
-     * @param ability the ability
-     */
+    
+
     protected void registerAbility(Ability ability) {
         abilities.put(ability.getName().toLowerCase(), ability);
     }
 
-    /**
-     * Load an ability from a configuration section
-     * @param section the configuration section
-     * @return the ability
-     */
+    
+
     protected Ability loadAbilityFromConfig(ConfigurationSection section) {
         if (section == null) {
             return null;
@@ -204,7 +184,8 @@ public abstract class Skill {
         int unlockLevel = section.getInt("unlock-level", 1);
         String description = section.getString("description", "No description available");
 
-        // Create the ability (this would be extended in real implementation)
+       
+
         return new Ability(abilityName, unlockLevel, description);
     }
 }

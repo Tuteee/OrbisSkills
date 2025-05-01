@@ -6,9 +6,8 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-/**
- * Event fired when a player's skill level increases
- */
+
+
 public class SkillLevelUpEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
@@ -18,13 +17,8 @@ public class SkillLevelUpEvent extends Event implements Cancellable {
     private final int newLevel;
     private boolean cancelled = false;
 
-    /**
-     * Create a new skill level-up event
-     * @param player the player
-     * @param skill the skill
-     * @param oldLevel the old level
-     * @param newLevel the new level
-     */
+    
+
     public SkillLevelUpEvent(Player player, Skill skill, int oldLevel, int newLevel) {
         this.player = player;
         this.skill = skill;
@@ -32,34 +26,26 @@ public class SkillLevelUpEvent extends Event implements Cancellable {
         this.newLevel = newLevel;
     }
 
-    /**
-     * Get the player
-     * @return the player
-     */
+    
+
     public Player getPlayer() {
         return player;
     }
 
-    /**
-     * Get the skill
-     * @return the skill
-     */
+    
+
     public Skill getSkill() {
         return skill;
     }
 
-    /**
-     * Get the old level
-     * @return the old level
-     */
+    
+
     public int getOldLevel() {
         return oldLevel;
     }
 
-    /**
-     * Get the new level
-     * @return the new level
-     */
+    
+
     public int getNewLevel() {
         return newLevel;
     }

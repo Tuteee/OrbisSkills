@@ -18,10 +18,8 @@ public class YamlStorage implements Storage {
     private final File dataFolder;
     private final ExecutorService executor;
 
-    /**
-     * Create a new YAML storage
-     * @param plugin the plugin instance
-     */
+    
+
     public YamlStorage(OrbisSkills plugin) {
         this.plugin = plugin;
         this.dataFolder = new File(plugin.getDataFolder(), "data/players");
@@ -30,7 +28,8 @@ public class YamlStorage implements Storage {
 
     @Override
     public void initialize() {
-        // Create data folder if it doesn't exist
+       
+
         if (!dataFolder.exists() && !dataFolder.mkdirs()) {
             plugin.getLogger().severe("Failed to create data folder: " + dataFolder.getAbsolutePath());
         }
@@ -55,22 +54,23 @@ public class YamlStorage implements Storage {
 
     @Override
     public void savePlayerData(PlayerData data) {
-        // Run asynchronously to avoid blocking main thread
+       
+
         executor.submit(() -> savePlayerDataSync(data));
     }
 
-    /**
-     * Save player data synchronously
-     * @param data the player data
-     */
+    
+
     private void savePlayerDataSync(PlayerData data) {
         File file = getPlayerFile(data.getUuid());
         FileConfiguration config = new YamlConfiguration();
 
-        // Store data
+       
+
         config.set("data", data.serialize());
 
-        // Save to file
+       
+
         try {
             config.save(file);
         } catch (IOException e) {
@@ -83,11 +83,8 @@ public class YamlStorage implements Storage {
         executor.shutdown();
     }
 
-    /**
-     * Get the player file
-     * @param uuid the player UUID
-     * @return the player file
-     */
+    
+
     private File getPlayerFile(UUID uuid) {
         return new File(dataFolder, uuid.toString() + ".yml");
     }
